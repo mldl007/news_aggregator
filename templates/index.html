@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="../static/loader.gif" as="image">
+	<link rel="preload" href="../static/favicon_new.png" as="image">
+	<link rel="preload" href="../static/refresh_reload_icon.png" as="image">
+<link rel="preload" href="../static/top-icon.png" as="image">
+    <link rel="icon" href="../static/favicon_new.png" type="image/png">
+    
+    <meta charset="UTF-8">
+    <title>Latest Indian News</title>
+    <link rel="stylesheet" href="static/styles.css">
+	<a id="top-loc"></a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!--
+  <script>
+$(window).load(function(){
+     $('.loader').fadeOut();
+});
+</script>
+-->
+
+<script>
+function filterContent(match_case) {
+	var keyword = document.getElementById("keywordInput").value;
+	if (match_case == false) 
+	{
+		/*var keyword = document.getElementById("keywordInput").value.toLowerCase(); */
+		/*var regex = new RegExp("\\b" + keyword + "\\b", "gi"); */
+	}
+	var clearbtn = document.getElementById("clearBtn");
+	
+	if (keyword !== "") 
+	{
+		clearbtn.style.opacity = 1;
+		var items = document.getElementsByClassName("news-item");
+		for (var i = 0; i < items.length; i++) 
+		{
+			var headline = items[i].querySelector('.headline');
+			var description = items[i].querySelector('.description');
+			if (match_case == true)
+			{
+				var article_category = items[i].querySelector('.article-category');
+				var src_time = items[i].querySelector('.time');
+				var itemText = headline.textContent.concat(" ", description.textContent, " ", article_category.textContent, " ", src_time.textContent)
+			} 
+			else 
+			{
+				var itemText = headline.textContent.concat(" ", description.textContent, " ")
+			}
+	
+			if (match_case == false) 
+			{	var regex = new RegExp("\\b" + keyword + "\\b", "gi");
+				itemText = itemText.toLowerCase();
+				if (regex.test(itemText) == true) 
+				{
+					items[i].style.display = "block";
+					highlightKeyword(headline, keyword, match_case);
+					highlightKeyword(description, keyword, match_case);
+				} 
+				else 
+				{
+					items[i].style.display = "none";
+				}
+			}
+			else
+			{
+				if (itemText.includes(keyword)) 
+				{
+					items[i].style.display = "block";
+					highlightKeyword(headline, keyword, match_case);
+					highlightKeyword(description, keyword, match_case);
+					highlightKeyword(article_category, keyword, match_case);
+					highlightKeyword(src_time, keyword, match_case);
+	  
+				}
+				else
+				{
+					items[i].style.display = "none";
+				}
+			}
+		}
+		} 
+		else
+		{
+			clearFilter();
+		}
+}
+
+function clearFilter() {
+  var items = document.getElementsByClassName("news-item");
+  var clearbtn = document.getElementById("clearBtn");
+  clearbtn.style.opacity=0;
+  for (var i = 0; i < items.length; i++) {
+	var headline = items[i].querySelector('.headline');
+	var description = items[i].querySelector('.description');
+	var article_category = items[i].querySelector('.article-category');
+	var src_time = items[i].querySelector('.time');
+    items[i].style.display = "block";
+    headline.innerHTML = headline.textContent; // Remove highlighting
+	description.innerHTML = description.textContent; // Remove highlighting
+	article_category.innerHTML = article_category.textContent; // Remove highlighting
+	src_time.innerHTML = src_time.textContent; // Remove highlighting
+  }
+
+   document.getElementById("keywordInput").value = ""; // Clear input field
+}
+
+function highlightKeyword(element, keyword, match_case) {
+  var regex = new RegExp(keyword);
+  if (match_case == false)
+  {
+	var regex = new RegExp("\\b" + keyword + "\\b", 'gi');
+  }
+  element.innerHTML = element.textContent.replace(regex, function(match) {
+    return '<span class="highlight">' + match + '</span>';
+  });
+}
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const containers = document.querySelectorAll('.container');
+
+    containers.forEach(container => {
+      const content = container.querySelector('.content');
+      const showMoreBtn = container.querySelector('.show-more');
+      const showLessBtn = container.querySelector('.show-less');
+
+      showMoreBtn.addEventListener('click', function() {
+       /* var  similar_news_items = document.getElementsByClassName("content");
+		var  show_less_items = document.getElementsByClassName("show-less");
+		var  show_more_items = document.getElementsByClassName("show-more");
+		for (var i = 0; i < similar_news_items.length; i++) {
+		similar_news_items[i].style.display = 'none';
+		show_more_items[i].style.display = 'block';
+		show_less_items[i].style.display = 'none';
+		}
+       */
+        
+        content.style.display = 'block';
+		content.style.opacity = 1;
+        showMoreBtn.style.display = 'none';
+        showLessBtn.style.display = 'block';
+      });
+
+      showLessBtn.addEventListener('click', function() {
+        document.documentElement.style.scrollBehavior = "auto";
+        var max_h = content.parentElement.parentElement.clientHeight;
+        content.style.display = 'none';
+        showMoreBtn.style.display = 'block';
+        showLessBtn.style.display = 'none';
+        var min_h = content.parentElement.parentElement.clientHeight;
+		$(window).scrollTop($(window).scrollTop() - (max_h - min_h) || 0);
+        document.documentElement.style.scrollBehavior = "smooth";
+      });
+    });
+  });
+</script>
+  
+<script>
+function wc_search(keyword)
+{
+clearFilter();
+document.getElementById("keywordInput").value = keyword;
+filterContent(false);
+}
+
+function word_cloud_display()
+{
+var word_cloud_section = document.getElementById("word-cloud-section-id");
+if (word_cloud_section.style.display == 'block')
+{
+word_cloud_section.style.display = 'none';
+}
+else
+{
+word_cloud_section.style.display = 'block';
+}
+}
+</script>
+
+<script>
+function showSearchInfo() {
+  alert("- Search is case-sensitive.\n- Search for news category (NATION, WORLD, SPORTS, ENTERTAINMENT, BUSINESS, TECHNOLOGY, HEALTH and SCIENCE) to filter news by category.\n- Search for news source (like zeebiz.com, ndtv.com, etc.) to filter news by source.")
+}
+</script>
+  
+	
+</head>
+<body>
+<!--<div class="loader"></div>-->
+{{body | safe}}
+
+<a id="top_theme" class="top-float" onclick="window.scrollTo(0, 0);">
+	<img id="top-theme-icon" alt="_" src="../static/top-icon.png" style="border-radius:50%; border: 3px solid #b9bfc4; background-color: white;" width="25px" height="25px" border="0">
+</a>	
+	<a href="javascript:window.location.reload(true)" id="theme" class="float">
+	<img id="theme-icon" alt="_" src="../static/refresh_reload_icon.png" style="border-radius:50%; border: 3px solid #b9bfc4; background-color: white;" width=25px height=25px border="0" />
+</a>
+</body>
+</html>
