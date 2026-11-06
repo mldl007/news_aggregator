@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -14,7 +14,7 @@ redis-server
 
 echo "Waiting for Redis..."
 
-until redis-cli -h 127.0.0.1 -p 6379 ping 2>/dev/null | grep -q PONG; do sleep 1 done
+until redis-cli -h 127.0.0.1 -p 6379 ping 2>/dev/null | grep -q PONG do sleep 1 done
 
 echo "Redis is ready!"
 
