@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Starting Redis..."
+echo "================================" echo "Starting Redis..." echo "================================"
 
 redis-server
 --daemonize yes
@@ -20,9 +20,9 @@ echo "Redis is ready!"
 
 redis-cli config set stop-writes-on-bgsave-error no
 
-echo "Starting Gunicorn..."
+echo "================================" echo "Starting Gunicorn..." echo "================================"
 
-exec gunicorn
+exec newrelic-admin run-program gunicorn
 -b 0.0.0.0:${PORT:-7860}
 --timeout 120
 --worker-class uvicorn.workers.UvicornWorker
