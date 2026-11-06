@@ -183,7 +183,7 @@ async def index():
         last_update_utc = datetime.strptime(redis_client.get('NEWSFETCHTIME'), '%Y-%m-%d %H:%M:%S.%f')
         last_update_mins = int(np.ceil((datetime.now() - last_update_utc).seconds / 60))
         last_update_str = f'Updated {last_update_mins} {"minutes" if last_update_mins > 1 else "minute"} ago'
-        result_str += f'<p class="srctxt">News aggregated from <b>{src_str}</b>.<br><br>{last_update_str}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{UK_EDITION_URL}"><b>Switch to UK edition</b></a></p>'
+        result_str += f'<p class="srctxt">News aggregated from <b>{src_str}</b>.<br><br>{last_update_str}</p>'
 
         result_str += '''
     	<div class="input-container">
